@@ -15,11 +15,3 @@ export const getYoutubeVideoData = async (videoId) => {
     return false
   }
 };
-
-export const getYoutubeVideoDataSource = (videoId) => {
-  try {
-    return `${baseUrl}/comments?video_id=${videoId}`
-  } catch (error) {
-    return false
-  }
-}

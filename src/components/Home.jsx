@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getYoutubeVideoDataSource } from '../common/Api'
+import { getYoutubeVideoData } from '../common/Api'
 
 export default function Home() {
     const [videoData, setVideoData] = useState(() => { return false })
@@ -9,7 +9,6 @@ export default function Home() {
     const [featuredComments, setFeaturedComments] = useState(() => { return false })
     const [videoId, setVideoId] = useState(() => { return false })
     const [isFetching, setIsFetching] = useState(() => { return false })
-    const [progressMessage, setProgressMessage] = useState(() => { return false })
     const [errorMessage, setErrorMessage] = useState(() => { return false })
     const extractYouTubeVideoId = () => {
         try {
@@ -27,37 +26,24 @@ export default function Home() {
         setSentimentScore(false)
         setFeaturedComments(false)
         setIsFetching(true);
-        const eventSource = new EventSource(getYoutubeVideoDataSource(videoId));
-        eventSource.onmessage = (event) => {
-            const parsedData = JSON.parse(event.data);
-            setProgressMessage(parsedData.message)
-            if (parsedData.video) setVideoData(parsedData.video)
-            if (parsedData.sentiment_score || parsedData.sentiment_score === 0) setSentimentScore(parsedData.sentiment_score)
-            if (parsedData.featured_positive) {
-                if (parsedData.featured_negative) {
-                    setFeaturedComments({ featured_positive: parsedData.featured_positive, featured_negative: parsedData.featured_negative })
-                }
-            }
-            if (parsedData.insights) setInsights(parsedData.insights)
-
-            if (parsedData.complete) {
+        if (!videoId) return
+        getYoutubeVideoData(videoId)
+        .then((res) => {
+            if (res.video_id) {
+                console.log(res)
+                setVideoData(res)
                 setIsFetching(false)
-                eventSource.close()
             }
-
-            if (parsedData.error) {
-                setErrorMessage(parsedData.error);
-                setIsFetching(false);
-                eventSource.close();
+            if (res.status === "completed") {
+                setSentimentScore(res.sentiment_score)
+                setFeaturedComments({featured_positive: res.featured_comment_positive, featured_negative: res.featured_comment_negative })
+                setInsights(res.insights)
             }
-        };
-
-        eventSource.onerror = (error) => {
-            console.error("EventSource failed:", error);
-            setErrorMessage("An error occurred while fetching the data.");
-            setIsFetching(false);
-            eventSource.close();
-        };
+        })
+        .catch((err) => {
+            setIsFetching(false)
+            setErrorMessage("Something went wrong fetching your video. Double check your link and try again.")
+        })
     };
     useEffect(() => {
         extractYouTubeVideoId()
@@ -66,19 +52,18 @@ export default function Home() {
     return (
         <div>
             <div>Video URL</div>
-            {progressMessage && isFetching && <div>{progressMessage}</div>}
             <input type="text" value={proposedUrlString} onChange={(e) => setProposedUrlString(e.target.value)}/>
             {videoId && !isFetching && <div onClick={fetchVideoInformation}>Fetch</div> }
-            {isFetching && !progressMessage && <div>Loading...</div> }
+            {isFetching && <div>Loading...</div> }
             {!isFetching && errorMessage && <div>{errorMessage}</div> }
             {videoData &&
                 <div>
                     <div>{videoData.video_title}</div>
-                    <div>{videoData.channel}</div>
+                    <div>{videoData.video_channel}</div>
                     <div style={{width: "320px", height: "180px"}}>
-                        <img src={videoData.thumbnail.url} style={{width: "100%", maxWidth: "100%"}} alt="Video thumbnail" />
+                        <img src={videoData.video_thumbnail.url} style={{width: "100%", maxWidth: "100%"}} alt="Video thumbnail" />
                     </div>
-                    <div>{videoData.published}</div>
+                    <div>{videoData.video_published}</div>
                 </div>
             }
             {(sentimentScore || sentimentScore === 0) &&
