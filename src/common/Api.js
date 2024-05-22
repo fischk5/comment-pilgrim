@@ -15,3 +15,21 @@ export const getYoutubeVideoData = async (videoId) => {
     return false
   }
 };
+
+export const getBasicVideoInformation = async (videoId) => {
+  try {
+    const response = await api.get(`/video-check?video_id=${videoId}`);
+    return response.data;
+  } catch (error) {
+    return false
+  }
+};
+
+export const getJobLibrary = async () => {
+  try {
+    const response = await api.get('/library');
+    return response.data;
+  } catch (error) {
+    return false
+  }
+};
