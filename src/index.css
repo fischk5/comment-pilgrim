@@ -6,3 +6,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.sentiment-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+}
+
+.sentiment-icon {
+  font-size: 32px;
+}
+
+.sentiment-bar {
+  height: 20px;
+  border-radius: 10px;
+  flex-grow: 1;
+  transition: width 0.3s ease;
+}

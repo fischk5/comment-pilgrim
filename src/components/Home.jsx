@@ -5,6 +5,8 @@ export default function Home() {
     const [videoData, setVideoData] = useState(() => { return false })
     const [sentimentScore, setSentimentScore] = useState(() => { return false })
     const [proposedUrlString, setProposedUrlString] = useState(() => { return "" })
+    const [insights, setInsights] = useState(() => { return false })
+    const [featuredComments, setFeaturedComments] = useState(() => { return false })
     const [videoId, setVideoId] = useState(() => { return false })
     const [isFetching, setIsFetching] = useState(() => { return false })
     const [progressMessage, setProgressMessage] = useState(() => { return false })
@@ -21,7 +23,9 @@ export default function Home() {
     }
     const fetchVideoInformation = () => {
         setVideoData(false)
+        setInsights(false)
         setSentimentScore(false)
+        setFeaturedComments(false)
         setIsFetching(true);
         const eventSource = new EventSource(getYoutubeVideoDataSource(videoId));
         eventSource.onmessage = (event) => {
@@ -29,6 +33,12 @@ export default function Home() {
             setProgressMessage(parsedData.message)
             if (parsedData.video) setVideoData(parsedData.video)
             if (parsedData.sentiment_score || parsedData.sentiment_score === 0) setSentimentScore(parsedData.sentiment_score)
+            if (parsedData.featured_positive) {
+                if (parsedData.featured_negative) {
+                    setFeaturedComments({ featured_positive: parsedData.featured_positive, featured_negative: parsedData.featured_negative })
+                }
+            }
+            if (parsedData.insights) setInsights(parsedData.insights)
 
             if (parsedData.complete) {
                 setIsFetching(false)
@@ -49,18 +59,6 @@ export default function Home() {
             eventSource.close();
         };
     };
-    // const fetchVideoInformation = async () => {
-    //     setIsFetching(true)
-    //     const fetched = await getYoutubeVideoData(videoId)
-    //     if (fetched.data) {
-    //         setData(fetched.data)
-    //         setIsFetching(false)
-    //     } else {
-    //         setData(false)
-    //         setErrorMessage("Try a different video")
-    //         setIsFetching(false)
-    //     }
-    // }
     useEffect(() => {
         extractYouTubeVideoId()
     // eslint-disable-next-line
@@ -86,6 +84,34 @@ export default function Home() {
             {(sentimentScore || sentimentScore === 0) &&
             <div>
                 <div>Sentiment Score is {sentimentScore}</div>
+                {featuredComments &&
+                <div>
+                    <div>Featured Positive:</div>
+                    <p>{featuredComments.featured_positive}</p>
+                    <div>Featured Negative:</div>
+                    <p>{featuredComments.featured_negative}</p>
+                </div>
+                }
+
+            </div>
+            }
+            {insights.summary && <div>{insights.summary}</div> }
+            {insights.audience_preferences && <div>{insights.audience_preferences}</div> }
+
+            {insights.themes &&
+            <div>
+                <div>Themes</div>
+                {insights.themes.map((theme) => (
+                    <span key={theme}>{theme}</span>
+                ))}
+            </div>
+            }
+            {insights.gap_keywords &&
+            <div>
+                <div>Keywords</div>
+                {insights.gap_keywords.map((kw) => (
+                    <span key={kw}>{kw}</span>
+                ))}
             </div>
             }
         </div>
