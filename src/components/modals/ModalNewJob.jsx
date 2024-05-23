@@ -80,9 +80,9 @@ export default function ModalNewJob({ hideModal, goToVideoById }) {
             {/* NEW VIDEO REVIEW */}
             {!fetched &&
             <div className="modal-new-job">
-                <h2>{!isFetching ? "New job" : "Great choice!"}</h2>
+                <h2>{!isFetching ? "New video analysis" : "Great choice!"}</h2>
                 <p>{!isFetching ? "Learn from the comments section. Drop a link to any YouTube video to get started." : "Looking up video..."}</p>
-                {!isFetching && <input type="text" placeholder="Enter a YouTube video URL" value={proposedUrlString} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setProposedUrlString(e.target.value)} />}
+                {!isFetching && <input autoFocus={true} type="text" placeholder="Enter a YouTube video URL" value={proposedUrlString} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setProposedUrlString(e.target.value)} />}
                 <div style={{width: "100%", minHeight: "56px"}}>
                     {!isFetching && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={getVideoCheck}>{isFetching ? ". . ." : "Search for video"}</div>}
                     {isFetching && <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}> <div className="loader-button" style={{height: "auto"}}/> </div>}

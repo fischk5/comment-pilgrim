@@ -13,7 +13,7 @@ export default function App() {
   const [library, setLibrary] = useState(() => { return [] })
   const fetchLibrary = async () => {
     try {
-      // if (!authenticated) return
+      if (!authenticated) return
       getJobLibrary()
       .then((res) => {
         setLibrary(res.jobs)
@@ -22,19 +22,22 @@ export default function App() {
       return
     }
   }
-  const initializeCommentPilgrim = async () => {
-    fetchLibrary()
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setAuthenticated(true)
-    setIsLoading(false)
-  }
-  // useEffect(() => {
-  //   const intervalId = setInterval(fetchLibrary, 10000); // runs every 10 seconds
-  //   return () => clearInterval(intervalId);
-  // }, []);
   useEffect(() => {
-    initializeCommentPilgrim()
-  }, [])
+    const initialize = async () => {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setAuthenticated(true);
+      setIsLoading(false);
+    };
+    initialize();
+  }, []);
+
+  useEffect(() => {
+    if (!authenticated) return;
+    const intervalId = setInterval(fetchLibrary, 10000);
+    fetchLibrary();
+    return () => clearInterval(intervalId);
+  // eslint-disable-next-line
+  }, [authenticated]);
   return (
     <div className="main">
       {!isLoading &&

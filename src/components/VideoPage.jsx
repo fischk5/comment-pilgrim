@@ -24,6 +24,12 @@ export default function VideoPage({ library, fetchLibrary }) {
             navigate('/library')
         }
     }
+    const openVideoInNewTab = () => {
+        if (!job) return
+        if (!job.video_id) return
+        const newWindow = window.open(`https://www.youtube.com/watch?v=${job.video_id}`, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+    }
     const resetJobInformation = () => {
         setThemes([])
         setAudiencePreferences(false)
@@ -55,9 +61,11 @@ export default function VideoPage({ library, fetchLibrary }) {
     }
     useEffect(() => {
         updateJobInformation()
+    // eslint-disable-next-line
     }, [job])
     useEffect(() => {
         identifyJobFromLibrary()
+    // eslint-disable-next-line
     }, [jobId, library])
     return (
         <div>
@@ -71,7 +79,7 @@ export default function VideoPage({ library, fetchLibrary }) {
                 </div>
                 <h2>{job.video_title}</h2>
                 <div className="video-primary-information-panels">
-                    <div className="video-primary-information-panel-thumbnail"> <img src={job.video_thumbnail.url} alt={job.video_title} /> </div>
+                    <div className="video-primary-information-panel-thumbnail"> <img src={job.video_thumbnail.url} alt={job.video_title} onClick={openVideoInNewTab} /> </div>
                     <div className="video-primary-information-panel-overview">
                         <div className="video-primary-informations">
                             <div className="video-primary-data-points">
