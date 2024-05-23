@@ -3,9 +3,9 @@ import ModalWrapper from './ModalWrapper'
 
 import { getYoutubeVideoData, getBasicVideoInformation } from '../../common/Api'
 
-export default function ModalNewJob({ hideModal, goToVideoById }) {
+export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
     const [videoData, setVideoData] = useState(() => { return false })
-    const [proposedUrlString, setProposedUrlString] = useState(() => { return "" })
+    const [proposedUrlString, setProposedUrlString] = useState(() => { return seedUrl ? seedUrl : "" })
     const [videoId, setVideoId] = useState(() => { return false })
     const [fetched, setFetched] = useState(() => { return false })
     const [isFetching, setIsFetching] = useState(() => { return false })
@@ -54,7 +54,6 @@ export default function ModalNewJob({ hideModal, goToVideoById }) {
         getYoutubeVideoData(videoId)
         .then((res) => {
             if (res.video_id) {
-                console.log(res)
                 if (res._id) return goToVideoById(res._id)
             }
         })

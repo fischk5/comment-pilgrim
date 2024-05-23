@@ -69,7 +69,7 @@ export default function VideoPage({ library, fetchLibrary }) {
     }, [jobId, library])
     return (
         <div>
-            <AuthHeader fetchLibrary={fetchLibrary} />
+            <AuthHeader fetchLibrary={fetchLibrary} library={library} />
             {job &&
             <div className="video-page common-outer-width">
                 <div className="video-breadcrumb">

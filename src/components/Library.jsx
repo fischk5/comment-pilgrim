@@ -5,10 +5,14 @@ import { parseISO, format, formatDistanceToNowStrict } from 'date-fns'
 import { MdAutoGraph, MdGridView, MdOutlineViewAgenda } from "react-icons/md";
 
 import AuthHeader from './AuthHeader'
+import ModalNewJob from './modals/ModalNewJob';
 
 export default function Library({ library, fetchLibrary }) {
+    const navigate = useNavigate()
     const [viewType, setViewType] = useState(() => { return "list"});
     const [organizedLibrary, setOrganizedLibrary] = useState(() => { return library });
+    const [isCreatingNewJob, setIsCreatingNewJob] = useState(() => { return false })
+    const [proposedUrlString, setProposedUrlString] = useState(() => { return "" });
     const updateLibraryOrganization = () => {
         try {
             const libraryCopy = Array.from(library)
@@ -18,14 +22,26 @@ export default function Library({ library, fetchLibrary }) {
             return
         }
     }
+    const handleKeyPress = (e) => {
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            setIsCreatingNewJob(true)
+        }
+    }
+    const goToVideoById = (jobId) => {
+        fetchLibrary()
+        setIsCreatingNewJob(false)
+        if (jobId) navigate(`/library/${jobId}`)
+    }
     useEffect(() => {
         updateLibraryOrganization()
     // eslint-disable-next-line
     }, [library])
     return (
         <div>
-            <AuthHeader fetchLibrary={fetchLibrary}/>
+            <AuthHeader fetchLibrary={fetchLibrary} library={library}/>
+            {isCreatingNewJob && <ModalNewJob hideModal={() => setIsCreatingNewJob(false) } goToVideoById={goToVideoById} seedUrl={proposedUrlString} /> }
             <div className="library common-outer-width">
+                {library.length > 0 &&
                 <div className="library-header">
                     <h1>Library</h1>
                     <div className="view-toggle">
@@ -33,6 +49,7 @@ export default function Library({ library, fetchLibrary }) {
                         <button className={viewType === "grid" ? "selected" : ""} onClick={() => setViewType('grid')}><MdGridView/></button>
                     </div>
                 </div>
+                }
                 {library.length > 0 && (
                     <div className={`library-items ${viewType}`}>
                         {organizedLibrary.map((item) => (
@@ -41,8 +58,11 @@ export default function Library({ library, fetchLibrary }) {
                     </div>
                 )}
                 {library.length === 0 &&
-                <div>
-                    Nothing here
+                <div className="library-empty">
+                    <div className="library-empty-hero">Welcome to Comment Pilgrim!</div>
+                    <p>Get content ideas and insights from the comments section of any video</p>
+                    <input autoFocus={true} type="text" placeholder="Enter a YouTube video URL" value={proposedUrlString} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setProposedUrlString(e.target.value)} />
+                    <p>Transform any comment section into relevant insights for more engaging and relevant content.</p>
                 </div>
                 }
 

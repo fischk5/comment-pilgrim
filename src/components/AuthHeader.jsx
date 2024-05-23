@@ -8,7 +8,7 @@ import ProfilePicture from './profiles/ProfilePicture';
 
 import ModalNewJob from './modals/ModalNewJob';
 
-export default function AuthHeader({ fetchLibrary }) {
+export default function AuthHeader({ fetchLibrary, library }) {
     const navigate = useNavigate()
     const [isCreatingNewJob, setIsCreatingNewJob] = useState(() => { return false })
     const goToVideoById = (jobId) => {
@@ -26,10 +26,11 @@ export default function AuthHeader({ fetchLibrary }) {
                 <div className="header common-outer-width">
                     <div className="header-section"><BrandName handleLogoClick={handleLogoClick}/></div>
                     <div className="header-section">
+                        {library.length > 0 &&
                         <div className="header-search" onClick={() => setIsCreatingNewJob(true)}>
                             <FaLink/>
                             <div className="header-search-button">Enter a YouTube video URL</div>
-                        </div>
+                        </div>}
                     </div>
                     <div className="header-section"><ProfilePicture/></div>
                 </div>
