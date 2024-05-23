@@ -12,7 +12,7 @@ export default function Library({ library, fetchLibrary }) {
     }, [])
     return (
         <div>
-            <AuthHeader/>
+            <AuthHeader fetchLibrary={fetchLibrary}/>
             <div className="library common-outer-width">
                 {library.length > 0 &&
                 <div>
@@ -35,13 +35,13 @@ export default function Library({ library, fetchLibrary }) {
     )
 }
 
-function LibraryItem({videoData}) {
-    console.log(videoData)
+function LibraryItem({ videoData }) {
     const navigate = useNavigate()
     const translateSentiment = () => {
         if (!videoData.sentiment_score) return false
         const rawScore = parseFloat(videoData.sentiment_score)
         const adjustmentFromFifty = 50 * rawScore
+        if (isNaN(adjustmentFromFifty)) return false
         return `${Math.floor(50 + adjustmentFromFifty).toFixed(0)}%`
     }
     return (
@@ -52,9 +52,9 @@ function LibraryItem({videoData}) {
                     <h2>{videoData.video_title}</h2>
                     <div className="library-item-subtitles">
                         <span>{videoData.video_channel}</span>
-                        <span>{videoData.video_published}</span>
+                        <span>{format(parseISO(videoData.video_published), 'MMM d, yyyy')}</span>
                     </div>
-                    {videoData.status === "completed" && videoData.sentiment_score &&
+                    {videoData.status === "completed" && translateSentiment() &&
                     <div className="library-item-sentiment">
                         <MdAutoGraph/>
                         <span>{translateSentiment()}</span>

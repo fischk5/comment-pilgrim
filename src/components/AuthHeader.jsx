@@ -8,10 +8,11 @@ import ProfilePicture from './profiles/ProfilePicture';
 
 import ModalNewJob from './modals/ModalNewJob';
 
-export default function AuthHeader() {
+export default function AuthHeader({ fetchLibrary }) {
     const navigate = useNavigate()
     const [isCreatingNewJob, setIsCreatingNewJob] = useState(() => { return false })
     const goToVideoById = (jobId) => {
+        fetchLibrary()
         setIsCreatingNewJob(false)
         if (jobId) navigate(`/library/${jobId}`)
     }

@@ -21,6 +21,7 @@ export default function Home() {
         }
     }
     const fetchVideoInformation = () => {
+        setErrorMessage(false)
         setVideoData(false)
         setInsights(false)
         setSentimentScore(false)

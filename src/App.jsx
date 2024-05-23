@@ -13,6 +13,7 @@ export default function App() {
   const [library, setLibrary] = useState(() => { return [] })
   const fetchLibrary = async () => {
     try {
+      // if (!authenticated) return
       getJobLibrary()
       .then((res) => {
         setLibrary(res.jobs)
@@ -27,6 +28,10 @@ export default function App() {
     setAuthenticated(true)
     setIsLoading(false)
   }
+  // useEffect(() => {
+  //   const intervalId = setInterval(fetchLibrary, 10000); // runs every 10 seconds
+  //   return () => clearInterval(intervalId);
+  // }, []);
   useEffect(() => {
     initializeCommentPilgrim()
   }, [])
@@ -37,7 +42,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
           <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />
-          <Route path="/library/:jobId" element={<VideoPage />} />
+          <Route path="/library/:jobId" element={<VideoPage library={library} fetchLibrary={fetchLibrary} />} />
           <Route path="*" element={<LandingPage authenticated={authenticated} />} />
         </Routes>
       </BrowserRouter>

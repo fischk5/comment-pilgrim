@@ -49,13 +49,13 @@ export default function ModalNewJob({ hideModal, goToVideoById }) {
     }
     const fetchVideoInformation = () => {
         setIsSubmittingForInsights(true);
+        setErrorMessage(false)
         if (!videoId) return
         getYoutubeVideoData(videoId)
         .then((res) => {
             if (res.video_id) {
                 console.log(res)
-                // REDIRECT TO PAGE
-                goToVideoById(res._id)
+                if (res._id) return goToVideoById(res._id)
             }
         })
         .catch((err) => {
