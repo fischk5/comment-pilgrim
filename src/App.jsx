@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, BrowserRouter   } from 'react-router-dom'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
 import LandingPage from "./components/LandingPage"
 import Library from "./components/Library"
@@ -25,14 +25,14 @@ export default function App() {
   useEffect(() => {
     const initialize = async () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      setAuthenticated(true);
+      // setAuthenticated(true);
       setIsLoading(false);
     };
     initialize();
   }, []);
 
   useEffect(() => {
-    if (!authenticated) return;
+    if (!authenticated) return
     const intervalId = setInterval(fetchLibrary, 10000);
     fetchLibrary();
     return () => clearInterval(intervalId);
@@ -44,8 +44,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
-          <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />
-          <Route path="/library/:jobId" element={<VideoPage library={library} fetchLibrary={fetchLibrary} />} />
+          {authenticated && <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />}
+          {authenticated && <Route path="/library/:jobId" element={<VideoPage library={library} fetchLibrary={fetchLibrary} />} />}
           <Route path="*" element={<LandingPage authenticated={authenticated} />} />
         </Routes>
       </BrowserRouter>

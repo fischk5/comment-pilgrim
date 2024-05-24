@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate  } from 'react-router-dom'
 import { parseISO, format, formatDistanceToNowStrict } from 'date-fns'
+import { getSentimentScore } from '../common/Helpers';
 
 import { MdAutoGraph, MdGridView, MdOutlineViewAgenda } from "react-icons/md";
 
@@ -75,10 +76,9 @@ function LibraryItem({ videoData, viewType }) {
     const navigate = useNavigate();
     const translateSentiment = () => {
         if (!videoData.sentiment_score) return false;
-        const rawScore = parseFloat(videoData.sentiment_score);
-        const adjustmentFromFifty = 50 * rawScore;
-        if (isNaN(adjustmentFromFifty)) return false;
-        return `${Math.floor(50 + adjustmentFromFifty).toFixed(0)}%`;
+        const allegedScore = getSentimentScore(videoData.sentiment_score)
+        if (!allegedScore) return false
+        return `${allegedScore}%`
     };
 
     return (

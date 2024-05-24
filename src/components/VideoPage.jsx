@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { parseISO, format, formatDistanceToNowStrict } from 'date-fns'
+import { getSentimentScore } from '../common/Helpers';
 
 import AuthHeader from './AuthHeader'
 
@@ -10,8 +11,7 @@ export default function VideoPage({ library, fetchLibrary }) {
     const [job, setJob] = useState(() => { return false })
     const [themes, setThemes] = useState(() => { return [] })
     const [audiencePreferences, setAudiencePreferences] = useState(() => { return false })
-    const [featuredCommentPositive, setFeaturedCommentPositive] = useState(() => { return false })
-    const [featuredCommentNegative, setFeaturedCommentNegative] = useState(() => { return false })
+    const [featuredComments, setFeaturedComments] = useState(() => { return [] })
     const [keywords, setKeywords] = useState(() => { return [] })
     const [summary, setSummary] = useState(() => { return false })
     const identifyJobFromLibrary = () => {
@@ -33,10 +33,9 @@ export default function VideoPage({ library, fetchLibrary }) {
     const resetJobInformation = () => {
         setThemes([])
         setAudiencePreferences(false)
+        setFeaturedComments([])
         setKeywords([])
         setSummary(false)
-        setFeaturedCommentPositive(false)
-        setFeaturedCommentNegative(false)
     }
     const updateJobInformation = () => {
         resetJobInformation()
@@ -48,16 +47,14 @@ export default function VideoPage({ library, fetchLibrary }) {
             if (job.insights.audience_preferences) setAudiencePreferences(job.insights.audience_preferences)
             if (job.insights.gap_keywords) setKeywords(job.insights.gap_keywords)
             if (job.insights.summary) setSummary(job.insights.summary)
+            if (job.insights.interesting_comments) setFeaturedComments(job.insights.interesting_comments)
         }
-        if (job.featured_comment_positive) setFeaturedCommentPositive(job.featured_comment_positive)
-        if (job.featured_comment_negative) setFeaturedCommentNegative(job.featured_comment_negative)
     }
     const translateSentiment = () => {
         if (!job.sentiment_score) return false
-        const rawScore = parseFloat(job.sentiment_score)
-        const adjustmentFromFifty = 50 * rawScore
-        if (isNaN(adjustmentFromFifty)) return false
-        return `${Math.floor(50 + adjustmentFromFifty).toFixed(0)}%`
+        const allegedScore = getSentimentScore(job.sentiment_score)
+        if (!allegedScore) return false
+        return `${allegedScore}%`
     }
     useEffect(() => {
         updateJobInformation()
@@ -129,11 +126,12 @@ export default function VideoPage({ library, fetchLibrary }) {
 
                     </div>
                     <div className="video-fold-panel-secondary">
-                        {(featuredCommentNegative || featuredCommentPositive) &&
+                        {featuredComments.length > 0 &&
                         <div className="video-featured-comments">
                             <h3>Featured Comments</h3>
-                            {featuredCommentPositive && <p>{featuredCommentPositive}</p>}
-                            {featuredCommentNegative && <p>{featuredCommentNegative}</p>}
+                            {featuredComments.map((comment) => (
+                                <p key={comment}>{comment}</p>
+                            ))}
                         </div>
                         }
                     </div>
