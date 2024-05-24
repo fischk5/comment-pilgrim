@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import LandingPage from "./components/LandingPage"
 import Library from "./components/Library"
 import VideoPage from './components/VideoPage'
+import PrivacyPolicy from './components/PrivacyPolicy'
 
 import { getJobLibrary } from './common/Api'
 
@@ -44,6 +45,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated} />} />
           {authenticated && <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />}
           {authenticated && <Route path="/library/:jobId" element={<VideoPage library={library} fetchLibrary={fetchLibrary} />} />}
           <Route path="*" element={<LandingPage authenticated={authenticated} />} />
