@@ -15,6 +15,9 @@ export default function LandingPage({ authenticated }) {
     const handleToggle = (cycle) => {
         setIsAnnual(cycle);
     };
+    const answerCallToAction = (plan, annual) => {
+        return navigate(`/register?plan=${plan}&annual=${annual}`)
+    }
     useEffect(() => {
         if (authenticated === true) return navigate('/library')
         return navigate("/")
@@ -28,7 +31,7 @@ export default function LandingPage({ authenticated }) {
                     <h1>Transform <span>comments</span><br/>into <span>content</span></h1>
                     <p>Comment Pilgrim explores the comments section for content ideas and insights based on <span style={{fontWeight: 800}}>real audience opinions.</span></p>
 
-                    <div className="landing-hero-cta">Get Comment Pilgrim<FaLongArrowAltRight/></div>
+                    <div className="landing-hero-cta" onClick={() => answerCallToAction("free", "false")}>Get Comment Pilgrim<FaLongArrowAltRight/></div>
                     <div className="landing-hero-image">
                         <img src="https://storage.googleapis.com/comment-pilgrim-public/comment-pilgrim-feature-1.png" alt="Comment Pilgrims video feedback page" />
                     </div>
@@ -61,7 +64,7 @@ export default function LandingPage({ authenticated }) {
                 </div>
                 <div className="landing-plans-prices">
                     {PRICING_TABLE.map((plan) => (
-                        <PricingPlan plan={plan} isAnnual={isAnnual} key={plan._id} />
+                        <PricingPlan plan={plan} isAnnual={isAnnual} key={plan._id} answerCallToAction={answerCallToAction} />
                     ))}
                 </div>
                 <div style={{marginTop: "20px", fontSize: "17px", color: "var(--cp-color-subtitles)"}}>Want to try Comment Pilgrim first? Get 5 video reports free when you sign up without a plan</div>
@@ -77,7 +80,7 @@ export default function LandingPage({ authenticated }) {
                     <p>Don't waste hours creating content your audience doesn't care about. Let Comment Pilgrim figure out exactly what the people want in minutes.</p>
                 </div>
                 <div className="landing-section-image">
-                    <div className="landing-hero-cta">Get started free<FaLongArrowAltRight/></div>
+                    <div className="landing-hero-cta" onClick={() => answerCallToAction("free", "false")}>Get started free<FaLongArrowAltRight/></div>
                 </div>
             </div>
             <GeneralFooter/>
@@ -85,16 +88,13 @@ export default function LandingPage({ authenticated }) {
     )
 }
 
-function PricingPlan({ plan, isAnnual }) {
+function PricingPlan({ plan, isAnnual, answerCallToAction }) {
     const featuredPlan = "standard"
     const calculatedMonthlyCost = () => {
         let annualCost = plan.cost_monthly * 12
         if (isAnnual) annualCost = plan.cost_annual
         const monthly = Math.round(annualCost/12).toFixed(0)
-        // Convert the string to a number
         const number = parseFloat(monthly);
-        
-        // Format the number with commas
         return number.toLocaleString();
     }
     const calculatedAnnualCost = () => {
@@ -140,7 +140,7 @@ function PricingPlan({ plan, isAnnual }) {
                     <FaCheck /> {plan.allowed_videos} Video Reports Per Month
                 </span>
             </div>
-            <div className="pricing-plan-cta">
+            <div className="pricing-plan-cta" onClick={() => answerCallToAction(plan._id, isAnnual ? "true" : "false")}>
                 Get {plan.name}
                 {plan._id === "standard" && <FaAngleRight/>}
                 {plan._id === "agency" && <FaAnglesRight/>}

@@ -5,6 +5,8 @@ import LandingPage from "./components/LandingPage"
 import Library from "./components/Library"
 import VideoPage from './components/VideoPage'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import Register from './components/accounts/Register'
+import Login from './components/accounts/Login'
 
 import { getJobLibrary } from './common/Api'
 
@@ -46,6 +48,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated}/>} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           {authenticated && <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />}
           {authenticated && <Route path="/library/:jobId" element={<VideoPage library={library} fetchLibrary={fetchLibrary} />} />}
           <Route path="*" element={<LandingPage authenticated={authenticated} />} />

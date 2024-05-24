@@ -15,7 +15,7 @@ export default function GeneralHeader() {
                 <div className="header-section"><BrandName handleLogoClick={goHome}/></div>
                 <div className="header-section">
                 </div>
-                <div className="header-section">Log In</div>
+                <div className="header-section"> <span style={{cursor: "pointer"}} onClick={() => navigate("/login")}>Sign In</span></div>
             </div>
         </div>
     </div>
