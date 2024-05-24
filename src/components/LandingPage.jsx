@@ -9,8 +9,12 @@ import GeneralFooter from './GeneralFooter';
 import { PRICING_TABLE } from '../config/Pricing';
 import { FAQ } from '../config/FAQ';
 
-export default function LandingPage({authenticated}) {
+export default function LandingPage({ authenticated }) {
     const navigate = useNavigate()
+    const [isAnnual, setIsAnnual] = useState(() => { return false })
+    const handleToggle = (cycle) => {
+        setIsAnnual(cycle);
+    };
     useEffect(() => {
         if (authenticated === true) return navigate('/library')
         return navigate("/")
@@ -52,9 +56,12 @@ export default function LandingPage({authenticated}) {
             </div>
             <div className="landing-section landing-pricing">
                 <h2 id="pricing">Plans & Pricing</h2>
+                <div>
+                    <Toggle onToggle={handleToggle} />
+                </div>
                 <div className="landing-plans-prices">
                     {PRICING_TABLE.map((plan) => (
-                        <PricingPlan plan={plan} isAnnual={false} key={plan._id} />
+                        <PricingPlan plan={plan} isAnnual={isAnnual} key={plan._id} />
                     ))}
                 </div>
                 <div style={{marginTop: "20px", fontSize: "17px", color: "var(--cp-color-subtitles)"}}>Want to try Comment Pilgrim first? Get 5 video reports free when you sign up without a plan</div>
@@ -79,10 +86,24 @@ export default function LandingPage({authenticated}) {
 }
 
 function PricingPlan({ plan, isAnnual }) {
-    const costs = isAnnual ? plan.cost_annual : plan.cost_monthly;
-    const billingPeriod = isAnnual ? 'year' : 'month';
     const featuredPlan = "standard"
-
+    const calculatedMonthlyCost = () => {
+        let annualCost = plan.cost_monthly * 12
+        if (isAnnual) annualCost = plan.cost_annual
+        const monthly = Math.round(annualCost/12).toFixed(0)
+        // Convert the string to a number
+        const number = parseFloat(monthly);
+        
+        // Format the number with commas
+        return number.toLocaleString();
+    }
+    const calculatedAnnualCost = () => {
+        let annualCost = plan.cost_monthly * 12
+        if (isAnnual) annualCost = plan.cost_annual
+        const monthly = annualCost
+        const number = parseFloat(monthly)
+        return number.toLocaleString()
+    }
     return (
         <div className={`pricing-plan ${plan._id === featuredPlan ? "featured" : "" }`}>
             {plan._id === featuredPlan && <div className="pricing-plan-badge-featured">Recommended</div> }
@@ -91,10 +112,11 @@ function PricingPlan({ plan, isAnnual }) {
                 <div className="pricing-plan-subtitle">{plan.subtitle}</div>
             </div>
             <div className="pricing-plan-cost">
-                <span className="pricing-plan-cost-amount">${costs}</span>
-                <span className="pricing-plan-cost-period">/{billingPeriod}</span>
+                <span className="pricing-plan-cost-amount">${calculatedMonthlyCost()}</span>
+                <span className="pricing-plan-cost-period">/month</span>
             </div>
-            <div className="pricing-plan-description">Included in {plan.name}</div>
+            <span className="pricing-plan-cost-period" style={{fontSize: "12px"}}>${calculatedAnnualCost()} per year</span>
+            <div className="pricing-plan-description" style={{marginTop: "12px"}}>Included in {plan.name}</div>
             <div className="pricing-plan-benefits">
                 <span>
                     <FaCheck /> Library
@@ -115,7 +137,7 @@ function PricingPlan({ plan, isAnnual }) {
                     <FaCheck /> Long-tail Keyword Generation
                 </span>
                 <span style={{fontWeight: 800, marginTop: "12px"}}>
-                    <FaCheck /> {plan.allowed_videos} Video Reports Per {billingPeriod}
+                    <FaCheck /> {plan.allowed_videos} Video Reports Per Month
                 </span>
             </div>
             <div className="pricing-plan-cta">
@@ -153,6 +175,26 @@ function FAQSection() {
                     </div>
                 </div>
             ))}
+        </div>
+    );
+}
+
+function Toggle({onToggle}) {
+    const [isAnnual, setIsAnnual] = useState(false);
+
+    const handleToggle = () => {
+        setIsAnnual(!isAnnual);
+        onToggle(isAnnual ? false : true);
+    };
+
+    return (
+        <div className="pricing-toggle">
+            <span className="toggle-label">Save with annual billing</span>
+            <label className="switch">
+                <input type="checkbox" checked={isAnnual} onChange={handleToggle} />
+                <span className="slider round"></span>
+            </label>
+            <span className="save-label">2 Months Free</span>
         </div>
     );
 }

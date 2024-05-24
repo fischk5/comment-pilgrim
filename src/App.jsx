@@ -45,7 +45,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated}/>} />
           {authenticated && <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />}
           {authenticated && <Route path="/library/:jobId" element={<VideoPage library={library} fetchLibrary={fetchLibrary} />} />}
           <Route path="*" element={<LandingPage authenticated={authenticated} />} />
