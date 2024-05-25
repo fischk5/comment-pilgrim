@@ -527,6 +527,10 @@ input {
   color: var(--cp-color-subtitles);
 }
 
+.account-form-alternate-submit-text-warning {
+  color: rgb(157, 24, 24);
+}
+
 .account-form-alternate-submit-text-centered span {
   text-decoration: underline;
   cursor: pointer;

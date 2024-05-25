@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { registerNewUser } from '../../common/Api';
 
 import { FaCheck } from "react-icons/fa6";
 
@@ -10,8 +11,10 @@ export default function Register() {
     const query = new URLSearchParams(useLocation().search)
     const plan = query.get('plan')
     const annual = query.get('annual') === 'true'
+    const [processFeedback, setProcessFeedback] = useState(() => { return "" })
     const [proposedPlan, setProposedPlan] = useState(() => { return "free" })
     const [proposedPassword, setProposedPassword] = useState(() => { return "" })
+    const [isSubmitted, setIsSubmitted] = useState(() => { return "" })
     const [proposedEmail, setProposedEmail] = useState(() => { return "" })
     const [proposedPlanIsAnnual, setProposedPlanIsAnnual] = useState(() => { return false })
     const updateProposedPlan = () => {
@@ -37,6 +40,46 @@ export default function Register() {
             return false
         }
     }
+    const registerUser = () => {
+        if (isSubmitted) return
+        setIsSubmitted(true)
+        setProcessFeedback("")
+        const payload = {
+            emailAddress: proposedEmail.toLowerCase().trim(),
+            password: proposedPassword,
+            proposed_plan: proposedPlan,
+            proposed_plan_annual: proposedPlanIsAnnual
+        }
+        registerNewUser(payload)
+        .then( (res) => {
+            console.log('RESPONSE')
+            if (!res) {
+                setProcessFeedback("Something went wrong creating your account. Please try again later.")
+                setIsSubmitted(false)
+                return
+            }
+            if (!res.success) {
+                if (res.exists) {
+                    setProcessFeedback("An account is already registered with that email address")
+                    setIsSubmitted(false)
+                    return
+                }
+            }
+            if (res.success) {
+                setIsSubmitted(false) // TODO: remove this
+                if (res.redirect_path) {
+                    window.location.replace(res.redirect_path)
+                }
+            }
+        })
+        .catch((err) => {
+            console.log('ERROR')
+            console.log(err)
+        });;
+    }
+    useEffect(() => {
+        setProcessFeedback("")
+    }, [proposedEmail, proposedPassword])
     useEffect(() => {
         updateProposedPlan()
     // eslint-disable-next-line
@@ -60,12 +103,18 @@ export default function Register() {
                                         <p>Select a password <span>{getPasswordValidationSign()}</span></p>
                                         <input type="password" placeholder="Password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} />
                                     </div>
-                                    <div className="account-form-submit">
+                                    {!isSubmitted &&
+                                    <div className="account-form-submit" onClick={registerUser}>
                                         Get Started
                                     </div>
+                                    }
                                     <div className="account-form-alternate-submit-text-centered">
                                         If you already have an account, <span onClick={() => navigate('/login')}>sign in here</span>
                                     </div>
+                                    {processFeedback && <div className="account-form-alternate-submit-text-centered account-form-alternate-submit-text-warning">
+                                        {processFeedback}
+                                    </div>
+                                    }
                                 </div>
                             </div>
 

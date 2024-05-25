@@ -8,6 +8,8 @@ import ProfilePicture from './profiles/ProfilePicture';
 
 import ModalNewJob from './modals/ModalNewJob';
 
+import { logout } from '../common/Api';
+
 export default function AuthHeader({ fetchLibrary, library }) {
     const navigate = useNavigate()
     const [isCreatingNewJob, setIsCreatingNewJob] = useState(() => { return false })
@@ -18,6 +20,9 @@ export default function AuthHeader({ fetchLibrary, library }) {
     }
     const handleLogoClick = () => {
         return navigate('/library')
+    }
+    const attemptLogout = () => {
+        logout().then((res) => navigate("/")).catch((err) => { return })
     }
     return (
         <div className="header-outer">
@@ -32,7 +37,7 @@ export default function AuthHeader({ fetchLibrary, library }) {
                             <div className="header-search-button">Enter a YouTube video URL</div>
                         </div>}
                     </div>
-                    <div className="header-section"><ProfilePicture/></div>
+                    <div className="header-section"> <div style={{cursor: "pointer"}} onClick={attemptLogout}><ProfilePicture/></div> </div>
                 </div>
             </div>
         </div>

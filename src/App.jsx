@@ -7,8 +7,9 @@ import VideoPage from './components/VideoPage'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Register from './components/accounts/Register'
 import Login from './components/accounts/Login'
+import LandingWelcome from './components/accounts/LandingWelcome'
 
-import { getJobLibrary } from './common/Api'
+import { getJobLibrary, fetchAuth } from './common/Api'
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(() => { return null })
@@ -25,15 +26,27 @@ export default function App() {
       return
     }
   }
+  const getAuthentication = async () => {
+    fetchAuth()
+        .then((res) => {
+            if (res.authenticated) {
+                setAuthenticated(true)
+            } else {
+                setAuthenticated(false)
+            }
+        })
+        .catch((err) => {
+            setAuthenticated(false)
+        })
+  }
   useEffect(() => {
     const initialize = async () => {
+      getAuthentication()
       await new Promise(resolve => setTimeout(resolve, 2000));
-      // setAuthenticated(true);
       setIsLoading(false);
     };
     initialize();
   }, []);
-
   useEffect(() => {
     if (!authenticated) return
     const intervalId = setInterval(fetchLibrary, 10000);
@@ -47,6 +60,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
+          <Route path="/landing-welcome" element={<LandingWelcome authenticated={authenticated} setAuthenticated={setAuthenticated}/>} />
           <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated}/>} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
