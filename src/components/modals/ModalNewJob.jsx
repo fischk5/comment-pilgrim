@@ -9,6 +9,7 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
     const [videoId, setVideoId] = useState(() => { return false })
     const [fetched, setFetched] = useState(() => { return false })
     const [isFetching, setIsFetching] = useState(() => { return false })
+    const [planLimits, setPlanLimits] = useState(() => { return false })
     const [isSubmittingForInsights, setIsSubmittingForInsights] = useState(() => { return false })
     const [errorMessage, setErrorMessage] = useState(() => { return false })
     const extractYouTubeVideoId = () => {
@@ -33,6 +34,7 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
         getBasicVideoInformation(videoId)
         .then((res) => {
             if (res.video_title) {
+                setPlanLimits(res.current_plan)
                 setVideoData(res)
                 setFetched(true)
                 setIsFetching(false)
@@ -62,6 +64,16 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
             setErrorMessage("Something went wrong fetching your video. Double check your link and try again.")
         })
     };
+    const canFetchNewVideo = () => {
+        try {
+            if (isSubmittingForInsights) return false
+            if (!planLimits) return false
+            if (planLimits.monthly_limit > planLimits.monthly_total) return true
+            return false
+        } catch (error) {
+            return false
+        }
+    }
     const handleKeyPress = (e) => {
         if (!videoId) return
         if (isFetching) return
@@ -98,9 +110,11 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
                     <div className="preview-title">{videoData.video_title}</div>
                     <div className="preview-channel">{videoData.channel}</div>
                 </div>
-                <p>If you analyze this video, you will have 3 videos left today</p>
+                <p style={{fontSize: "14px"}}>You have analyzed {planLimits.monthly_total}/{planLimits.monthly_limit} videos this period.</p>
                 <div style={{width: "100%", minHeight: "56px"}}>
-                    {!isSubmittingForInsights && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>}
+                    {canFetchNewVideo() && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>}
+                    {!canFetchNewVideo() && !isSubmittingForInsights && <div className="button-primary" style={{backgroundColor: "grey"}} onClick={hideModal}>You have reached your limit for the current period</div>}
+                    {/* {!isSubmittingForInsights && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>} */}
                     {isSubmittingForInsights && <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}> <div className="loader-button" style={{height: "auto"}}/> </div>}
                 </div>
                 {!isSubmittingForInsights && <div className="button-secondary" onClick={hideModal}>Cancel</div>}

@@ -777,6 +777,7 @@ footer {
 .library-empty input {
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .library-empty p {
