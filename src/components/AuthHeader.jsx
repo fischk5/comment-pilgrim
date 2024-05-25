@@ -22,7 +22,7 @@ export default function AuthHeader({ fetchLibrary, library }) {
         return navigate('/library')
     }
     const attemptLogout = () => {
-        logout().then((res) => navigate("/")).catch((err) => { return })
+        logout().then((res) => navigate("/landing-welcome")).catch((err) => { return })
     }
     return (
         <div className="header-outer">

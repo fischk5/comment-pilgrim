@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import BrandName from '../branding/BrandName';
+import { login } from '../../common/Api';
 
 export default function Login() {
     const navigate = useNavigate()
     const [forgotPassword, setForgotPassword] = useState(() => { return false })
     const [forgotPasswordSubmitted, setForgotPasswordSubmitted] = useState(() => { return false })
     const [proposedPassword, setProposedPassword] = useState(() => { return "" })
+    const [processFeedback, setProcessFeedback] = useState(() => { return "" })
     const [proposedEmail, setProposedEmail] = useState(() => { return "" })
     const submitForgotPassword = () => {
         // send submit forgot password to backend
@@ -18,6 +20,22 @@ export default function Login() {
         setProposedEmail("")
         setForgotPassword(false)
         setForgotPasswordSubmitted(false)
+    }
+    const attemptLogin = () => {
+        login({emailAddress: proposedEmail, password: proposedPassword})
+        .then((res) => {
+            if (res.success) {
+                return navigate("/landing-welcome")
+            }
+            if (!res.success) {
+                if (res.reason) setProcessFeedback(res.reason)
+                setProposedPassword("")
+            }
+        })
+        .catch((err) => {
+            setProcessFeedback("Something went wrong. Please try again later")
+            return
+        })
     }
     return (
         <div className="account">
@@ -42,9 +60,13 @@ export default function Login() {
                                         <p>Password</p>
                                         <input type="password" placeholder="Password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} />
                                     </div>
-                                    <div className="account-form-submit">
+                                    <div className="account-form-submit" onClick={attemptLogin}>
                                         Sign in
                                     </div>
+                                    {processFeedback && <div className="account-form-alternate-submit-text-centered account-form-alternate-submit-text-warning">
+                                        {processFeedback}
+                                    </div>
+                                    }
                                     <div className="account-form-alternate-submit-text-centered">
                                         No account? <span onClick={() => navigate("/register")}>Sign up here</span>
                                     </div>
