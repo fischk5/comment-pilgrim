@@ -10,7 +10,11 @@ import ModalNewJob from './modals/ModalNewJob';
 
 export default function Library({ library, fetchLibrary }) {
     const navigate = useNavigate()
-    const [viewType, setViewType] = useState(() => { return "list"});
+    const [viewType, setViewType] = useState(() => { 
+        if (localStorage.getItem("pilgrimView") === "list") return "list"
+        if (localStorage.getItem("pilgrimView") === "grid") return "grid"
+        return "list"
+    });
     const [organizedLibrary, setOrganizedLibrary] = useState(() => { return library });
     const [isCreatingNewJob, setIsCreatingNewJob] = useState(() => { return false })
     const [proposedUrlString, setProposedUrlString] = useState(() => { return "" });
@@ -33,10 +37,30 @@ export default function Library({ library, fetchLibrary }) {
         setIsCreatingNewJob(false)
         if (jobId) navigate(`/library/${jobId}`)
     }
+    const saveViewToLocalStorage = () => {
+        localStorage.setItem("pilgrimView", viewType)
+    }
+    const getAdditionalViewStyles = () => {
+        try {
+            if (library.length < 4 && viewType === "grid") {
+                return {
+                    justifyContent: "flex-start",
+                    gap: "20px"
+                }
+            }
+            return {}
+        } catch (error) {
+            return {}
+        }
+    }
     useEffect(() => {
         updateLibraryOrganization()
     // eslint-disable-next-line
     }, [library])
+    useEffect(() => {
+        saveViewToLocalStorage()
+    // eslint-disable-next-line
+    }, [viewType])
     return (
         <div>
             <AuthHeader fetchLibrary={fetchLibrary} library={library} />
@@ -52,7 +76,7 @@ export default function Library({ library, fetchLibrary }) {
                 </div>
                 }
                 {library.length > 0 && (
-                    <div className={`library-items ${viewType}`}>
+                    <div className={`library-items ${viewType}`} style={getAdditionalViewStyles()}>
                         {organizedLibrary.map((item) => (
                             <LibraryItem key={item._id} videoData={item} viewType={viewType} />
                         ))}
