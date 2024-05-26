@@ -65,6 +65,7 @@ export default function Library({ library, fetchLibrary }) {
         <div>
             <AuthHeader fetchLibrary={fetchLibrary} library={library} />
             {isCreatingNewJob && <ModalNewJob hideModal={() => setIsCreatingNewJob(false) } goToVideoById={goToVideoById} seedUrl={proposedUrlString} /> }
+            {library &&
             <div className="library common-outer-width">
                 {library.length > 0 &&
                 <div className="library-header">
@@ -92,6 +93,7 @@ export default function Library({ library, fetchLibrary }) {
                 }
 
             </div>
+            }
         </div>
     )
 }

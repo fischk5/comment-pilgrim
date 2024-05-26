@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import { useNavigate  } from 'react-router-dom'
 
-import { FaLink } from "react-icons/fa6";
+import { FaLink, FaAngleDown, FaAngleUp, FaPlus } from "react-icons/fa6";
 
 import BrandName from './branding/BrandName'
-import ProfilePicture from './profiles/ProfilePicture';
-
 import ModalNewJob from './modals/ModalNewJob';
-
 import { logout } from '../common/Api';
 
 export default function AuthHeader({ fetchLibrary, library }) {
     const navigate = useNavigate()
+    const [isShowingMenuDropdown, setIsShowingMenuDropdown] = useState(() => { return false })
     const [isCreatingNewJob, setIsCreatingNewJob] = useState(() => { return false })
     const goToVideoById = (jobId) => {
         fetchLibrary()
@@ -21,7 +19,8 @@ export default function AuthHeader({ fetchLibrary, library }) {
     const handleLogoClick = () => {
         return navigate('/library')
     }
-    const attemptLogout = () => {
+    const attemptLogout = (e) => {
+        e.stopPropagation()
         logout().then((res) => navigate("/landing-welcome")).catch((err) => { return })
     }
     return (
@@ -35,9 +34,28 @@ export default function AuthHeader({ fetchLibrary, library }) {
                         <div className="header-search" onClick={() => setIsCreatingNewJob(true)}>
                             <FaLink/>
                             <div className="header-search-button">Enter a YouTube video URL</div>
-                        </div>}
+                        </div>
+                        }
+                        {library.length > 0 &&
+                        <div className="header-search-mobile" onClick={() => setIsCreatingNewJob(true)}>
+                            <FaPlus/>
+                            <div>New video</div>
+                        </div>
+                        }
                     </div>
-                    <div className="header-section"> <div style={{cursor: "pointer"}} onClick={attemptLogout}><ProfilePicture/></div> </div>
+                    <div className="header-section header-section-menu">
+                        <div style={{cursor: "pointer", display: "flex", alignItems: "center", gap: "8px"}} onClick={() => setIsShowingMenuDropdown(!isShowingMenuDropdown)}>My Account {isShowingMenuDropdown ? <FaAngleUp/> : <FaAngleDown/>}</div>
+                        {isShowingMenuDropdown &&
+                        <div className="header-account-menu-outer">
+                            <div className="header-account-menu">
+                                <span>Manage Plan</span>
+                                <span>Support</span>
+                                <span>Terms of Service</span>
+                                <span onClick={(e) => attemptLogout(e)}>Logout</span>
+                            </div>
+                        </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
