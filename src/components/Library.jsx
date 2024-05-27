@@ -131,7 +131,8 @@ function LibraryItem({ videoData, viewType }) {
                         Gathered {formatDistanceToNowStrict(parseISO(videoData.createdAt), 'P')} ago
                     </div>
                 )}
-                {videoData.status !== "completed" && <div className="library-item-badge">Analyzing</div>}
+                {videoData.status !== "invalid" && videoData.status !== "completed" && <div className="library-item-badge">Analyzing</div>}
+                {videoData.status === "invalid" && <div className="library-item-badge" style={{backgroundColor: "#ffc107"}}>Not enough data</div>}
             </div>
         </div>
     );

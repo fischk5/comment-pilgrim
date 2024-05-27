@@ -142,9 +142,14 @@ export default function VideoPage({ library, fetchLibrary }) {
                     </div>
                 </div>
                 }
-                {job.status !== "completed" &&
+                {job.status !== "completed" && job.status !== "invalid" &&
                 <div className="video-analysis-incomplete">
                     Your video is still being analyzed
+                </div>
+                }
+                {job.status === "invalid" &&
+                <div className="video-analysis-incomplete">
+                    {summary} It will not be counted against your monthly usage.
                 </div>
                 }
             </div>

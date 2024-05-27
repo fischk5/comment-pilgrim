@@ -116,12 +116,11 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
                     <div className="preview-title">{videoData.video_title}</div>
                     <div className="preview-channel">{videoData.channel}</div>
                 </div>
-                {!canFetchNewVideo() && <p style={{fontSize: "14px", color: "rgb(157, 24, 24)" }}>You have used all available reports for this period</p>}
+                {!canFetchNewVideo() && !isFetching && !isSubmittingForInsights && <p style={{fontSize: "14px", color: "rgb(157, 24, 24)" }}>You have used all available reports for this period</p>}
                 {canFetchNewVideo() && <p style={{fontSize: "14px"}}>You have analyzed {planLimits.monthly_total}/{planLimits.monthly_limit} videos this period.</p>}
                 <div style={{width: "100%", minHeight: "56px"}}>
                     {canFetchNewVideo() && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>}
                     {!canFetchNewVideo() && !isSubmittingForInsights && <div className="button-primary" onClick={goToUpgradePage}>Upgrade Plan</div>}
-                    {/* {!isSubmittingForInsights && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>} */}
                     {isSubmittingForInsights && <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}> <div className="loader-button" style={{height: "auto"}}/> </div>}
                 </div>
                 {!isSubmittingForInsights && <div className="button-secondary" onClick={hideModal}>Cancel</div>}
