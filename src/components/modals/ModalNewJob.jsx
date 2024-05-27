@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ModalWrapper from './ModalWrapper'
+import { useNavigate  } from 'react-router-dom'
 
 import { getYoutubeVideoData, getBasicVideoInformation } from '../../common/Api'
 
 export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
+    const navigate = useNavigate()
     const [videoData, setVideoData] = useState(() => { return false })
     const [proposedUrlString, setProposedUrlString] = useState(() => { return seedUrl ? seedUrl : "" })
     const [videoId, setVideoId] = useState(() => { return false })
@@ -81,6 +83,10 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
             getVideoCheck()
         }
     }
+    const goToUpgradePage = () => {
+        hideModal()
+        navigate("/account")
+    }
     useEffect(() => {
         extractYouTubeVideoId()
     // eslint-disable-next-line
@@ -110,10 +116,11 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
                     <div className="preview-title">{videoData.video_title}</div>
                     <div className="preview-channel">{videoData.channel}</div>
                 </div>
-                <p style={{fontSize: "14px"}}>You have analyzed {planLimits.monthly_total}/{planLimits.monthly_limit} videos this period.</p>
+                {!canFetchNewVideo() && <p style={{fontSize: "14px", color: "rgb(157, 24, 24)" }}>You have used all available reports for this period</p>}
+                {canFetchNewVideo() && <p style={{fontSize: "14px"}}>You have analyzed {planLimits.monthly_total}/{planLimits.monthly_limit} videos this period.</p>}
                 <div style={{width: "100%", minHeight: "56px"}}>
                     {canFetchNewVideo() && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>}
-                    {!canFetchNewVideo() && !isSubmittingForInsights && <div className="button-primary" style={{backgroundColor: "grey"}} onClick={hideModal}>You have reached your limit for the current period</div>}
+                    {!canFetchNewVideo() && !isSubmittingForInsights && <div className="button-primary" onClick={goToUpgradePage}>Upgrade Plan</div>}
                     {/* {!isSubmittingForInsights && <div className="button-primary" style={videoId ? {} : {backgroundColor: "grey"}} onClick={attemptJobSubmit}>Fetch Insights</div>} */}
                     {isSubmittingForInsights && <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}> <div className="loader-button" style={{height: "auto"}}/> </div>}
                 </div>

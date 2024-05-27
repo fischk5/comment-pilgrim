@@ -86,3 +86,30 @@ export const login = async (params) => {
     return false
   }
 };
+
+export const getAccountInformation = async () => {
+  try {
+    const response = await api.get('/account');
+    return response.data;
+  } catch (error) {
+    return false
+  }
+};
+
+export const getAccountManagementUrl = async () => {
+  try {
+    const response = await api.get('/manage-plan-url');
+    return response.data;
+  } catch (error) {
+    return false
+  }
+};
+
+export const upgradePlan = async (payload) => {
+  try {
+    const response = await api.post('/upgrade-plan', payload);
+    return response.data;
+  } catch (error) {
+    return false
+  }
+};

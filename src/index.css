@@ -174,7 +174,12 @@ input {
   padding: 120px 32px;
 }
 
-.landing-benefits{
+.landing-section.landing-embedded {
+  min-height: unset;
+  padding-top: 0px;
+}
+
+.landing-benefits {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -1017,6 +1022,189 @@ footer {
 @media screen and (max-width: 800px) {
   .library-items.grid {
     justify-content: flex-start;
+  }
+}
+
+/* PLAN MANAGEMENT */
+.plan {
+  margin-top: 48px;
+}
+
+.plan h1 {
+  font-size: 32px;
+  margin: 0;
+  color: var(--cp-color-dark);
+}
+
+.plan-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 120px;
+  width: 100%;
+  max-width: 360px;
+  gap: 20px;
+  font-size: 18px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plan-button {
+  background-color: var(--cp-color-brand-primary);
+  color: white;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.plan-progress-bar-container {
+  width: 100%;
+  background-color: var(--cp-color-brand-primary-light);
+  border-radius: 7px; 
+  overflow: hidden; 
+}
+
+.plan-progress-bar-fill {
+  background-color: var(--cp-color-brand-primary); 
+  height: 100%;
+  border-radius: 7px 0 0 7px;
+  transition: width 0.4s ease;
+}
+
+.plan-sections {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: stretch;
+  flex-direction: row;
+  margin-top: 32px;
+}
+
+.plan-sections h2 {
+  margin: 0;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: var(--cp-color-dark);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plan-sections h2 svg {
+  font-size: 18px;
+  color: var(--cp-color-brand-primary);
+}
+
+.plan-section-use,
+.plan-section-current {
+  flex-basis: 45%;
+  border: 1px solid rgb(242, 242, 242);
+  padding: 32px;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.plan-sections p {
+  margin: 0;
+  color: var(--cp-color-subtitles);
+  line-height: 1.5;
+  margin-top: 20px;
+}
+
+.plan-section-use p:first-of-type {
+  margin-top: 0px;
+}
+
+.plan-section-use-totals {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: var(--cp-color-dark);
+}
+
+.plan-section-use-totals span {
+  font-size: 24px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.plan-section-blueprint {
+  font-size: 18px;
+  color: var(--cp-color-dark);
+  margin-bottom: 12px;
+}
+
+.plan-section-blueprint div {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--cp-color-subtitles);
+}
+
+.plan-section-blueprint span {
+  font-size: 16px;
+  color: var(--cp-color-subtitles);
+}
+
+.plan-section-current-change-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.plan-section-current-change-button {
+  background-color: var(--cp-color-brand-primary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cp-color-brand-primary);
+  cursor: pointer;
+  min-width: 120px;
+  text-align: center;
+}
+
+.plan-section-current-change-button-alt {
+  background-color: white;
+  color: var(--cp-color-brand-primary);
+}
+
+.plan-section-terms {
+  color: var(--cp-color-subtitles);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plan-term {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.plan-term div {
+  width: 60px;
+  font-weight: 400;
+}
+
+.plan-new-heading {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.plan-new-heading svg {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px;
+  color: grey;
+}
+
+@media screen and (max-width: 1100px) {
+  .plan-sections {
+    flex-direction: column;
   }
 }
 

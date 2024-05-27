@@ -29,6 +29,7 @@ export default function AuthHeader({ fetchLibrary, library }) {
                 {isCreatingNewJob && <ModalNewJob hideModal={() => setIsCreatingNewJob(false) } goToVideoById={goToVideoById}/> }
                 <div className="header common-outer-width">
                     <div className="header-section"><BrandName handleLogoClick={handleLogoClick}/></div>
+                    {library &&
                     <div className="header-section">
                         {library.length > 0 &&
                         <div className="header-search" onClick={() => setIsCreatingNewJob(true)}>
@@ -43,13 +44,15 @@ export default function AuthHeader({ fetchLibrary, library }) {
                         </div>
                         }
                     </div>
+                    }
+                    {!library && <div className="header-section"></div> }
                     <div className="header-section header-section-menu">
                         <div style={{cursor: "pointer", display: "flex", alignItems: "center", gap: "8px"}} onClick={() => setIsShowingMenuDropdown(!isShowingMenuDropdown)}>My Account {isShowingMenuDropdown ? <FaAngleUp/> : <FaAngleDown/>}</div>
                         {isShowingMenuDropdown &&
                         <div className="header-account-menu-outer">
                             <div className="header-account-menu">
-                                <span>Manage Plan</span>
-                                <span>Support</span>
+                                <span onClick={() => navigate("/account")}>Manage plan</span>
+                                <span>Contact support</span>
                                 <span>Terms of Service</span>
                                 <span onClick={(e) => attemptLogout(e)}>Logout</span>
                             </div>

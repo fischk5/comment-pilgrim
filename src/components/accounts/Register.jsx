@@ -66,7 +66,6 @@ export default function Register() {
                 }
             }
             if (res.success) {
-                setIsSubmitted(false) // TODO: remove this
                 if (res.redirect_path) {
                     window.location.replace(res.redirect_path)
                 }
