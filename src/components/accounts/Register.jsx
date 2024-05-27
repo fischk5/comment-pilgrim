@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { registerNewUser } from '../../common/Api';
 
+import { isValidEmailAddress } from '../../common/Helpers';
+
 import { FaCheck } from "react-icons/fa6";
 
 import BrandName from '../branding/BrandName';
@@ -40,8 +42,16 @@ export default function Register() {
             return false
         }
     }
+    const handleKeyPress = (e) => {
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            return registerUser()        
+        }
+    }
     const registerUser = () => {
         if (isSubmitted) return
+        if (!isValidEmailAddress(proposedEmail)) return setProcessFeedback("Please enter a valid email address")
+        if (!proposedPassword) return setProcessFeedback("Please provide a password that is at least 8 characters long")
+        if (proposedPassword.length < 8) return setProcessFeedback("Your password needs to be at least 8 characters long")
         setIsSubmitted(true)
         setProcessFeedback("")
         const payload = {
@@ -96,11 +106,11 @@ export default function Register() {
                                 <div className="account-form-fields">
                                     <div className="account-form-field">
                                         <p>Email address</p>
-                                        <input type="email" placeholder="Email" autoFocus value={proposedEmail} onChange={(e) => setProposedEmail(e.target.value)} />
+                                        <input type="email" placeholder="Email" autoFocus value={proposedEmail} maxLength={80} onChange={(e) => setProposedEmail(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
                                     </div>
                                     <div className="account-form-field">
                                         <p>Select a password <span>{getPasswordValidationSign()}</span></p>
-                                        <input type="password" placeholder="Password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} />
+                                        <input type="password" placeholder="Password" value={proposedPassword} maxLength={80} onChange={(e) => setProposedPassword(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
                                     </div>
                                     {!isSubmitted &&
                                     <div className="account-form-submit" onClick={registerUser}>

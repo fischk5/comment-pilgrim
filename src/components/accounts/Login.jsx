@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import BrandName from '../branding/BrandName';
+import { isValidEmailAddress } from '../../common/Helpers';
 import { login, requestPasswordReset } from '../../common/Api';
 
 export default function Login() {
@@ -13,7 +14,6 @@ export default function Login() {
     const [proposedEmail, setProposedEmail] = useState(() => { return "" })
     const submitForgotPassword = () => {
         try {
-            // send submit forgot password to backend
             requestPasswordReset({ email_address: proposedEmail })
             setForgotPasswordSubmitted(true)
         } catch (error) {
@@ -27,7 +27,14 @@ export default function Login() {
         setForgotPassword(false)
         setForgotPasswordSubmitted(false)
     }
+    const handleKeyPress = (e) => {
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            return attemptLogin()        
+        }
+    }
     const attemptLogin = () => {
+        if (!proposedPassword) return
+        if (!isValidEmailAddress(proposedEmail)) return setProcessFeedback("Please enter a valid email address")
         login({emailAddress: proposedEmail, password: proposedPassword})
         .then((res) => {
             if (res.success) {
@@ -60,11 +67,11 @@ export default function Login() {
                                 <div className="account-form-fields">
                                     <div className="account-form-field">
                                         <p>Email</p>
-                                        <input type="email" placeholder="Email" autoFocus value={proposedEmail} onChange={(e) => setProposedEmail(e.target.value)} />
+                                        <input type="email" placeholder="Email" autoFocus value={proposedEmail} onChange={(e) => setProposedEmail(e.target.value)} onKeyDown={(e) => handleKeyPress(e)}/>
                                     </div>
                                     <div className="account-form-field">
                                         <p>Password</p>
-                                        <input type="password" placeholder="Password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} />
+                                        <input type="password" placeholder="Password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
                                     </div>
                                     <div className="account-form-submit" onClick={attemptLogin}>
                                         Sign in
