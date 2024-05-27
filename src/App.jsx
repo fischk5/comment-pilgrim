@@ -11,6 +11,7 @@ import Login from './components/accounts/Login'
 import LandingWelcome from './components/accounts/LandingWelcome'
 import PlanManager from './components/accounts/PlanManager'
 import NewPlan from './components/accounts/NewPlan'
+import PasswordReset from './components/accounts/PasswordReset'
 
 import { getJobLibrary, fetchAuth } from './common/Api'
 
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="/landing-welcome" element={<LandingWelcome authenticated={authenticated} setAuthenticated={setAuthenticated}/>} />
           <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated}/>} />
           <Route path="/terms-of-service" element={<TermsOfService authenticated={authenticated}/>} />
+          {!authenticated && <Route path="/reset-password" element={<PasswordReset />} />}
           {!authenticated && <Route path="/register" element={<Register />} />}
           {!authenticated && <Route path="/login" element={<Login />} />}
           {authenticated && <Route path="/account" element={<PlanManager library={library} fetchLibrary={fetchLibrary} />} />}

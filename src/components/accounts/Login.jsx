@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import BrandName from '../branding/BrandName';
-import { login } from '../../common/Api';
+import { login, requestPasswordReset } from '../../common/Api';
 
 export default function Login() {
     const navigate = useNavigate()
@@ -12,8 +12,14 @@ export default function Login() {
     const [processFeedback, setProcessFeedback] = useState(() => { return "" })
     const [proposedEmail, setProposedEmail] = useState(() => { return "" })
     const submitForgotPassword = () => {
-        // send submit forgot password to backend
-        setForgotPasswordSubmitted(true)
+        try {
+            // send submit forgot password to backend
+            requestPasswordReset({ email_address: proposedEmail })
+            setForgotPasswordSubmitted(true)
+        } catch (error) {
+            return
+        }
+
     }
     const resetForm = () => {
         setProposedPassword("")
@@ -91,7 +97,8 @@ export default function Login() {
                                 {forgotPassword && forgotPasswordSubmitted &&
                                 <div className="account-form-fields">
                                     <div className="account-form-field">
-                                        <p>An email has been sent to your account to reset your password</p>
+                                        <p style={{display: "block"}}>Please email <a href={`mailto:pilgrim@commentpilgrim.com?subject=${encodeURIComponent('Password Reset Request')}&body=${encodeURIComponent('Please finish resetting my password.')}`}>pilgrim@commentpilgrim.com</a> to finish resetting your password</p>
+                                        
                                     </div>
                                     <div className="account-form-alternate-submit-text-centered">
                                         <span onClick={resetForm}>Go back</span>

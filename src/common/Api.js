@@ -72,6 +72,25 @@ export const logout = async () => {
   }
 };
 
+export const resetPassword = async (payload) => {
+  try {
+    const response = await api.post('/reset-password', payload);
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+};
+
+export const requestPasswordReset = async (payload) => {
+  try {
+    const response = await api.post('/request-password-reset', payload);
+    return response.data;
+  } catch (error) {
+    return false
+  }
+};
+
 export const login = async (params) => {
   try {
     const b64Pw = Buffer.from(params.password).toString('base64');
