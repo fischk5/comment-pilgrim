@@ -1292,8 +1292,39 @@ footer {
   background-color: var(--cp-color-brand-primary);
 }
 
-.video-primary-information-panel-thumbnail img {
+.video-primary-information-panel-thumbnail {
+  position: relative;
+  overflow: hidden;
   border-radius: 12px;
+}
+
+.video-primary-information-panel-thumbnail-cover {
+  opacity: 0;
+  position: absolute;
+  background-color: rgba(57, 57, 57, 0.404);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.video-primary-information-panel-thumbnail-cover svg {
+  color: white;
+  opacity: 1;
+  font-size: 20px;
+}
+
+.video-primary-information-panel-thumbnail-cover:hover {
+  opacity: 1;
+}
+
+.video-primary-information-panel-thumbnail img {
   cursor: pointer;
 }
 

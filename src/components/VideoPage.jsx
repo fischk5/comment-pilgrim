@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { parseISO, format, formatDistanceToNowStrict } from 'date-fns'
 import { getSentimentScore } from '../common/Helpers';
 
+import { FaPlay } from "react-icons/fa6";
+
 import AuthHeader from './AuthHeader'
 
 export default function VideoPage({ library, fetchLibrary }) {
@@ -76,7 +78,10 @@ export default function VideoPage({ library, fetchLibrary }) {
                 </div>
                 <h2>{job.video_title}</h2>
                 <div className="video-primary-information-panels">
-                    <div className="video-primary-information-panel-thumbnail"> <img src={job.video_thumbnail.url} alt={job.video_title} onClick={openVideoInNewTab} /> </div>
+                    <div className="video-primary-information-panel-thumbnail">
+                        <div className="video-primary-information-panel-thumbnail-cover" onClick={openVideoInNewTab}><FaPlay/></div>
+                        <img src={job.video_thumbnail.url} alt={job.video_title} onClick={openVideoInNewTab} />
+                    </div>
                     <div className="video-primary-information-panel-overview">
                         <div className="video-primary-informations">
                             <div className="video-primary-data-points">
