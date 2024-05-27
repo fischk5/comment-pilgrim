@@ -156,7 +156,7 @@ export default function PlanManager({ library, fetchLibrary }) {
                         <ProgressBar percentage={planInfo.monthly_total/planInfo.monthly_limit*100} />
                         {getCurrentPeriodInformation()}
                         <p>Video reports are charged as soon as you request an analysis. If the video doesn't have enough information to generate meaningful results, Comment Pilgrim will not count it against your total.</p>
-                        <p>Plans created after the 28th of a month are reset on the 28th of every month. For more information, review the <span style={{color: "var(--cp-color-brand-primary)", fontWeight: 600, cursor: "pointer"}}>Terms of Service.</span></p>
+                        <p>Plans created after the 28th of a month are reset on the 28th of every month. For more information, review the <span style={{color: "var(--cp-color-brand-primary)", fontWeight: 600, cursor: "pointer"}} onClick={() => navigate('/terms-of-service')}>Terms of Service.</span></p>
                     </div>
                     <div className="plan-section-current">
                         <h2><FaDollarSign/>Current plan</h2>

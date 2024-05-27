@@ -52,8 +52,8 @@ export default function AuthHeader({ fetchLibrary, library }) {
                         <div className="header-account-menu-outer">
                             <div className="header-account-menu">
                                 <span onClick={() => navigate("/account")}>Manage plan</span>
-                                <span>Contact support</span>
-                                <span>Terms of Service</span>
+                                <a href="mailto:support@commentpilgrim.com">Contact support</a>
+                                <span onClick={() => navigate("/terms-of-service")}>Terms of Service</span>
                                 <span onClick={(e) => attemptLogout(e)}>Logout</span>
                             </div>
                         </div>

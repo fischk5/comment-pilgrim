@@ -720,9 +720,11 @@ input:checked + .slider:before {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
-.header-account-menu span {
+.header-account-menu span,
+.header-account-menu a {
   padding: 12px;
   width: 100%;
+  box-sizing: border-box;
   font-size: 14px;
   font-weight: 500;
   color: var(--cp-color-dark);
@@ -730,7 +732,15 @@ input:checked + .slider:before {
   transition: all 0.1s;
 }
 
-.header-account-menu span:hover {
+.header-account-menu a {
+  text-decoration: none;
+  width: 100%;
+  color: unset;
+  color: var(--cp-color-dark);
+}
+
+.header-account-menu span:hover,
+.header-account-menu a:hover {
   background-color: rgb(228, 228, 228);
 }
 

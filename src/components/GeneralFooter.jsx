@@ -15,6 +15,7 @@ export default function GeneralFooter() {
                 <div className="footer-section links">
                     <ul>
                         <li onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>
+                        <li onClick={() => navigate("/terms-of-service")}>Terms of Service</li>
                         <li><a href="mailto:support@commentpilgrim.com">Support</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                     </ul>

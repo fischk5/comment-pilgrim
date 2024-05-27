@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage"
 import Library from "./components/Library"
 import VideoPage from './components/VideoPage'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import TermsOfService from './components/TermsOfService'
 import Register from './components/accounts/Register'
 import Login from './components/accounts/Login'
 import LandingWelcome from './components/accounts/LandingWelcome'
@@ -64,8 +65,9 @@ export default function App() {
           <Route path="/" element={<LandingPage authenticated={authenticated} />} />
           <Route path="/landing-welcome" element={<LandingWelcome authenticated={authenticated} setAuthenticated={setAuthenticated}/>} />
           <Route path="/privacy-policy" element={<PrivacyPolicy authenticated={authenticated}/>} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/terms-of-service" element={<TermsOfService authenticated={authenticated}/>} />
+          {!authenticated && <Route path="/register" element={<Register />} />}
+          {!authenticated && <Route path="/login" element={<Login />} />}
           {authenticated && <Route path="/account" element={<PlanManager library={library} fetchLibrary={fetchLibrary} />} />}
           {authenticated && <Route path="/new-plan" element={<NewPlan library={library} fetchLibrary={fetchLibrary} />} />}
           {authenticated && <Route path="/library" element={<Library library={library} fetchLibrary={fetchLibrary} />} />}
