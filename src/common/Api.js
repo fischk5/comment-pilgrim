@@ -3,7 +3,7 @@ import { Buffer } from 'buffer';
 const CryptoJS = require('crypto-js')
 
 var baseUrl = "http://localhost:5000/api"
-if (process.env.NODE_ENV === "production") baseUrl = "https://commentpilgrim/api"
+if (process.env.NODE_ENV === "production") baseUrl = "https://commentpilgrim.com/api"
 
 let headers = {
   Accept: "application/json",

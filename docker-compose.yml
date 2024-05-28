@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  pilgrim:
+    build:  
+      dockerfile: Dockerfile
+    image: pilgrim:latest
+    env_file: .env
