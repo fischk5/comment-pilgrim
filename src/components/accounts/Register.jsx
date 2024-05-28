@@ -62,7 +62,6 @@ export default function Register() {
         }
         registerNewUser(payload)
         .then( (res) => {
-            console.log('RESPONSE')
             if (!res) {
                 setProcessFeedback("Something went wrong creating your account. Please try again later.")
                 setIsSubmitted(false)
@@ -117,9 +116,11 @@ export default function Register() {
                                         Get Started
                                     </div>
                                     }
+                                    {!isSubmitted &&
                                     <div className="account-form-alternate-submit-text-centered">
                                         If you already have an account, <span onClick={() => navigate('/login')}>sign in here</span>
                                     </div>
+                                    }
                                     {processFeedback && <div className="account-form-alternate-submit-text-centered account-form-alternate-submit-text-warning">
                                         {processFeedback}
                                     </div>
