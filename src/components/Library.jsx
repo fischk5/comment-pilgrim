@@ -85,10 +85,10 @@ export default function Library({ library, fetchLibrary }) {
                 )}
                 {library.length === 0 &&
                 <div className="library-empty">
-                    <div className="library-empty-hero">Welcome to Comment Pilgrim!</div>
-                    <p>Get content ideas and insights from the comments section of any video</p>
+                    <div className="library-empty-hero">Welcome!</div>
+                    <p>Get started by providing a YouTube video link</p>
                     <input autoFocus={true} type="text" placeholder="Enter a YouTube video URL" value={proposedUrlString} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setProposedUrlString(e.target.value)} />
-                    <p>Transform any comment section into relevant insights for more engaging and relevant content.</p>
+                    <p>Rapidly generate long-tail keywords and content ideas from the comments</p>
                 </div>
                 }
 

@@ -40,7 +40,7 @@ export default function AuthHeader({ fetchLibrary, library }) {
                         {library.length > 0 &&
                         <div className="header-search-mobile" onClick={() => setIsCreatingNewJob(true)}>
                             <FaPlus/>
-                            <div>New video</div>
+                            <div className="header-search-mobile-text">New video</div>
                         </div>
                         }
                     </div>

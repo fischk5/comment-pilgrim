@@ -31,6 +31,12 @@ input {
   padding: 0px 32px;
 }
 
+@media screen and (max-width: 800px) {
+  .common-outer-width {
+   padding: 0px 14px;
+  }
+}
+
 /* MAIN APP */
 .app-loader-out {
   position: relative;
@@ -172,6 +178,7 @@ input {
   margin-left: auto;
   margin-right: auto;
   padding: 120px 32px;
+  box-sizing: border-box;
 }
 
 .landing-section.landing-embedded {
@@ -388,16 +395,50 @@ input {
 
 @media screen and (max-width: 800px) {
   .landing h1 {
-    font-size: 32px;
+    font-size: 24px;
+    text-align: left;
+  }
+
+  .landing-section h2 {
+    font-size: 20px;
+  }
+
+  .landing-hero-inner p,
+  .landing-section p {
+    font-size: 16px;
   }
 
   .landing-hero-inner p {
-    font-size: 16px;
+    text-align: left;
+    padding-left: 0px;
   }
 
   .landing-how-it-works {
     font-size: 14px;
   }
+
+  .landing-hero-image {
+    margin-top: 40px;
+  }
+
+  .landing-hero-outer {
+    min-height: unset;
+    padding-bottom: 80px;
+  }
+
+  .landing-section-image {
+    width: 100%;
+    max-width: 100%;
+    min-width: unset;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .landing-section {
+    min-height: 50vh;
+    padding: 40px 14px;
+  }
+  
 }
 
 @media screen and (max-width: 960px) {
@@ -542,12 +583,32 @@ input {
 }
 
 @media screen and (max-width: 1000px) {
+
   .account-form-container-standard-image {
     display: none;
   }
+
   .account-form-container-standard-form {
     flex-basis: 100%;
   }
+
+  .account-inner {
+    left: 14px;
+    right: 14px;
+    top: 14px;
+    bottom: 14px;
+  }
+
+  .account-form-container-standard {
+    padding: 12px;
+  }
+
+  .account-form {
+    gap: 40px;
+    min-width: unset;
+    width: 100%;
+  }
+
 }
 
 /* TOGGLE */
@@ -752,6 +813,10 @@ input:checked + .slider:before {
   .header-search-mobile {
     display: flex;
   }
+
+  .header-search-mobile-text {
+    display: none;
+  }
 }
 
 /* FOOTER */
@@ -857,6 +922,7 @@ footer {
   font-size: 18px;
   text-align: center;
   color: var(--cp-color-dark);
+  line-height: 1.5;
 }
 
 .library-empty-hero {
@@ -1030,9 +1096,20 @@ footer {
 }
 
 @media screen and (max-width: 800px) {
+
   .library-items.grid {
     justify-content: flex-start;
   }
+
+  .library h1 {
+    font-size: 24px;
+  }
+
+  .library-item-thumbnail {
+    display: none;
+  }
+  
+
 }
 
 /* PLAN MANAGEMENT */
