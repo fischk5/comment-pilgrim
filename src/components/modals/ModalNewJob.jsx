@@ -97,6 +97,7 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
             {/* NEW VIDEO REVIEW */}
             {!fetched &&
             <div className="modal-new-job">
+                <div className="modal-new-job-back">Comment <span> Pilgrim</span></div>
                 <h2>{!isFetching ? "New video analysis" : "Great choice!"}</h2>
                 <p>{!isFetching ? "Learn from the comments section. Drop a link to any YouTube video to get started." : "Looking up video..."}</p>
                 {!isFetching && <input autoFocus={true} type="text" placeholder="Enter a YouTube video URL" value={proposedUrlString} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setProposedUrlString(e.target.value)} />}
@@ -113,8 +114,11 @@ export default function ModalNewJob({ hideModal, goToVideoById, seedUrl }) {
             <div className="modal-new-job">
                 <div className="image-preview">
                     <img src={videoData.thumbnail.url} alt={videoData.video_title} />
-                    <div className="preview-title">{videoData.video_title}</div>
-                    <div className="preview-channel">{videoData.channel}</div>
+                    <div className="image-preview-titles">
+                        <div className="preview-title">{videoData.video_title}</div>
+                        <div className="preview-channel">{videoData.channel}</div>
+                    </div>
+                    
                 </div>
                 {!canFetchNewVideo() && !isFetching && !isSubmittingForInsights && <p style={{fontSize: "14px", color: "rgb(157, 24, 24)" }}>You have used all available reports for this period</p>}
                 {canFetchNewVideo() && <p style={{fontSize: "14px"}}>You have analyzed {planLimits.monthly_total}/{planLimits.monthly_limit} videos this period.</p>}

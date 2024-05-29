@@ -88,6 +88,7 @@ export default function Library({ library, fetchLibrary }) {
                     <div className="library-empty-hero">Welcome!</div>
                     <p>Get started by providing a YouTube video link</p>
                     <input autoFocus={true} type="text" placeholder="Enter a YouTube video URL" value={proposedUrlString} onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => setProposedUrlString(e.target.value)} />
+                    <div className="landing-hero-cta" onClick={() => setIsCreatingNewJob(true)}>Analyze Video</div>
                     <p>Rapidly generate long-tail keywords and content ideas from the comments</p>
                 </div>
                 }
