@@ -9,12 +9,56 @@ import GeneralFooter from './GeneralFooter';
 import { PRICING_TABLE } from '../config/Pricing';
 import { FAQ } from '../config/FAQ';
 
+import { updateSchemaOrgJSONLD, updateHeadTags } from '../common/Helpers';
+
 export default function LandingPage({ authenticated }) {
     const navigate = useNavigate()
     const [isAnnual, setIsAnnual] = useState(() => { return false })
     const handleToggle = (cycle) => {
         setIsAnnual(cycle);
     };
+    const updateMeta = () => {
+        try {
+            updateSchemaOrgJSONLD({
+                "@context": "http://schema.org",
+                "@type": "WebSite",
+                "name": "Comment Pilgrim",
+                "url": "https://www.commentpilgrim.com",
+                "logo": "https://storage.googleapis.com/comment-pilgrim-public/Comment%20Pilgrim.png",
+                "description": "Generate keyword ideas from YouTube comments so you can create more relevant content for your audience",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "Comment Pilgrim",
+                    "url": "https://www.commentpilgrim.com",
+                    "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://storage.googleapis.com/comment-pilgrim-public/Comment%20Pilgrim.png",
+                    "width": 1200,
+                    "height": 630
+                    }
+                }
+            })
+
+            // Meta
+            let title = "Comment Pilgrim"
+            let metaTags = [
+                { name: 'description', content: 'Generate keyword ideas from YouTube comments so you can create more relevant content for your audience' },
+                { name: 'robots', content: 'index, follow' },
+                { name: 'og:title', content: title },
+                { name: 'og:description', content: 'Generate keyword ideas from YouTube comments so you can create more relevant content for your audience' },
+                { name: 'og:url', content: 'https://tetheros.com/blog' },
+                { name: 'og:type', content: 'website' },
+                { name: 'og:image', content: 'https://storage.googleapis.com/comment-pilgrim-public/Comment%20Pilgrim.png' },
+                { name: 'twitter:card', content: 'summary_large_image' },
+                { name: 'twitter:title', content: title },
+                { name: 'twitter:image', content: 'https://storage.googleapis.com/comment-pilgrim-public/Comment%20Pilgrim.png' },
+                { name: 'twitter:description', content: 'Generate keyword ideas from YouTube comments so you can create more relevant content for your audience' },
+            ]
+            updateHeadTags(title, metaTags)
+        } catch (error) {
+            return
+        }
+    }
     const answerCallToAction = (plan, annual) => {
         return navigate(`/register?plan=${plan}&annual=${annual}`)
     }
@@ -23,19 +67,27 @@ export default function LandingPage({ authenticated }) {
         return navigate("/")
     // eslint-disable-next-line
     }, [authenticated])
+    useEffect(() => {
+        updateMeta()
+    // eslint-disable-next-line
+    }, [])
     return (
         <div className="landing">
             <div className="landing-hero-outer">
                 <div className="landing-hero-inner common-outer-width">
                     <GeneralHeader/>
-                    {/* <h1>Transform <span>comments</span><br/>into <span>content</span></h1> */}
-                    <h1>Get <span>content ideas</span><br/>from your <span>audience</span></h1>
-                    <p>Comment Pilgrim generates <span style={{fontWeight: 800}}>long-tail keywords</span> from the comments of any YouTube video so you can create content that resonates with your audience.</p>
+                    <h1>Align your content strategy<br/>with the <span>comments section</span></h1>
+                    <p>Comment Pilgrim generates keyword ideas from YouTube comments so you can create more relevant content for your audience</p>
                     <div className="landing-hero-cta" onClick={() => answerCallToAction("free", "false")}>Get Comment Pilgrim<FaLongArrowAltRight/></div>
                     <div className="landing-hero-image">
                         <img src="https://storage.googleapis.com/comment-pilgrim-public/comment-pilgrim-feature-1.png" alt="Comment Pilgrims video feedback page" />
                     </div>
                 </div>
+            </div>
+
+            <div className="landing-video-embed-section">
+                <h2>Watch the video</h2>
+                <iframe src="https://www.youtube.com/embed/bw4Oh6E4cVw?si=3H9giKrn2RfF4fDx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <div className="landing-section landing-benefits">
