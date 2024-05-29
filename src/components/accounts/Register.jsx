@@ -13,9 +13,18 @@ export default function Register() {
     const query = new URLSearchParams(useLocation().search)
     const plan = query.get('plan')
     const annual = query.get('annual') === 'true'
+    const referrer = query.get('referrer')
+    const referralCode = query.get('code')
     const [processFeedback, setProcessFeedback] = useState(() => { return "" })
     const [proposedPlan, setProposedPlan] = useState(() => { return "free" })
     const [proposedPassword, setProposedPassword] = useState(() => { return "" })
+    const [proposedSpecialCode, setProposedSpecialCode] = useState(() => {
+        if (referralCode) {
+            return referralCode
+        } else {
+            return ""
+        }
+    })
     const [isSubmitted, setIsSubmitted] = useState(() => { return "" })
     const [proposedEmail, setProposedEmail] = useState(() => { return "" })
     const [proposedPlanIsAnnual, setProposedPlanIsAnnual] = useState(() => { return false })
@@ -52,13 +61,23 @@ export default function Register() {
         if (!isValidEmailAddress(proposedEmail)) return setProcessFeedback("Please enter a valid email address")
         if (!proposedPassword) return setProcessFeedback("Please provide a password that is at least 8 characters long")
         if (proposedPassword.length < 8) return setProcessFeedback("Your password needs to be at least 8 characters long")
+        if (referrer === "appsumo") {
+            if (!proposedSpecialCode) return setProcessFeedback("Please enter your AppSumo code to continue")
+            setProposedPlan("standard")
+        }
         setIsSubmitted(true)
         setProcessFeedback("")
-        const payload = {
+        let payload = {
             emailAddress: proposedEmail.toLowerCase().trim(),
             password: proposedPassword,
             proposed_plan: proposedPlan,
             proposed_plan_annual: proposedPlanIsAnnual
+        }
+        if (referrer === "appsumo") {
+            payload['code'] = proposedSpecialCode
+            payload['proposed_plan'] = "standard"
+            payload['proposed_plan_annual'] = true
+            payload['referral'] = "appsumo"
         }
         registerNewUser(payload)
         .then( (res) => {
@@ -73,6 +92,16 @@ export default function Register() {
                     setIsSubmitted(false)
                     return
                 }
+                if (res.invalid_code) {
+                    setProcessFeedback("That code is not valid. If you believe this is a mistake, please email support@commentpilgrim.com")
+                    setIsSubmitted(false)
+                    return
+                }
+                if (res.sub_failure) {
+                    setProcessFeedback("Something went wrong setting up your account. If this continues, please email support@commentpilgrim.com")
+                    setIsSubmitted(false)
+                    return
+                }
             }
             if (res.success) {
                 if (res.redirect_path) {
@@ -81,8 +110,7 @@ export default function Register() {
             }
         })
         .catch((err) => {
-            console.log('ERROR')
-            console.log(err)
+            return
         });;
     }
     useEffect(() => {
@@ -94,19 +122,24 @@ export default function Register() {
     }, [plan, annual])
     return (
         <div className="account">
-            {/* <GeneralHeader/> */}
             <div className="account-outer">
                 <div className="account-inner">
                     <div className="account-form-container-standard">
                         <div className="account-form-container-standard-form">
                             <div className="account-form">
                                 <div onClick={() => navigate("/")}><BrandName/></div>
-                                <h2>Sign Up</h2>
+                                <SignupHeaderInformation referrer={referrer} />
                                 <div className="account-form-fields">
                                     <div className="account-form-field">
                                         <p>Email address</p>
                                         <input type="email" placeholder="Email" autoFocus value={proposedEmail} maxLength={80} onChange={(e) => setProposedEmail(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
                                     </div>
+                                    {referrer === "appsumo" &&
+                                    <div className="account-form-field">
+                                        <p>AppSumo Code</p>
+                                        <input style={proposedSpecialCode.length > 0 ? {fontWeight: 600, color: "var(--cp-color-brand-primary)"} : {}} type="text" placeholder="Paste your AppSumo code here" value={proposedSpecialCode} maxLength={80} onChange={(e) => setProposedSpecialCode(e.target.value)} />
+                                    </div>
+                                    }
                                     <div className="account-form-field">
                                         <p>Select a password <span>{getPasswordValidationSign()}</span></p>
                                         <input type="password" placeholder="Password" value={proposedPassword} maxLength={80} onChange={(e) => setProposedPassword(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
@@ -138,4 +171,17 @@ export default function Register() {
             </div>
         </div>
     )
+}
+
+function SignupHeaderInformation({referrer}) {
+    if (referrer === "appsumo") {
+        return (
+            <h2>Welcome, Sumoling! 👋</h2>
+        )
+    } else {
+        return (
+            <h2>Sign Up</h2>
+        )
+    }
+
 }

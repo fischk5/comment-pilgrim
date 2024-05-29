@@ -614,14 +614,14 @@ input {
   cursor: pointer;
 }
 
-@media screen and (max-width: 1000px) {
-
+@media screen and (max-height: 880px) {
   .account-form-container-standard-image {
     display: none;
   }
 
   .account-form-container-standard-form {
     flex-basis: 100%;
+    margin-top: 40px;
   }
 
   .account-inner {
@@ -636,9 +636,47 @@ input {
   }
 
   .account-form {
-    gap: 40px;
+    gap: 20px;
     min-width: unset;
     width: 100%;
+  }
+
+  .account-form h2 {
+    font-size: 24px;
+  }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+  .account-form-container-standard-image {
+    display: none;
+  }
+
+  .account-form-container-standard-form {
+    flex-basis: 100%;
+    margin-top: 40px;
+  }
+
+  .account-inner {
+    left: 14px;
+    right: 14px;
+    top: 14px;
+    bottom: 14px;
+  }
+
+  .account-form-container-standard {
+    padding: 12px;
+  }
+
+  .account-form {
+    gap: 20px;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .account-form h2 {
+    font-size: 24px;
   }
 
 }

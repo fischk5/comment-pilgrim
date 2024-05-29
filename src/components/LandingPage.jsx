@@ -87,7 +87,7 @@ export default function LandingPage({ authenticated }) {
 
             <div className="landing-video-embed-section">
                 <h2>Watch the video</h2>
-                <iframe src="https://www.youtube.com/embed/bw4Oh6E4cVw?si=3H9giKrn2RfF4fDx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/bw4Oh6E4cVw?si=3H9giKrn2RfF4fDx" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
 
             <div className="landing-section landing-benefits">
