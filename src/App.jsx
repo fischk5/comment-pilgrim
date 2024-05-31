@@ -46,7 +46,7 @@ export default function App() {
   useEffect(() => {
     const initialize = async () => {
       getAuthentication()
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       setIsLoading(false);
     };
     initialize();

@@ -78,7 +78,7 @@ export default function LandingPage({ authenticated }) {
                     <GeneralHeader/>
                     <h1>Align your content strategy<br/>with the <span>comments section</span></h1>
                     <p>Comment Pilgrim generates keyword ideas from YouTube comments so you can create more relevant content for your audience</p>
-                    <div className="landing-hero-cta" onClick={() => answerCallToAction("free", "false")}>Get Comment Pilgrim<FaLongArrowAltRight/></div>
+                    <div className="landing-hero-cta" onClick={() => answerCallToAction("free", "false")}>Get Started Free<FaLongArrowAltRight/></div>
                     <div className="landing-hero-image">
                         <img src="https://storage.googleapis.com/comment-pilgrim-public/comment-pilgrim-feature-1.png" alt="Comment Pilgrims video feedback page" />
                     </div>
