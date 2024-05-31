@@ -906,6 +906,7 @@ input:checked + .slider:before {
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
+  z-index: 2;
 }
 
 .header-account-menu {
