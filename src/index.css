@@ -1716,15 +1716,80 @@ footer {
 }
 
 @media screen and (max-width: 760px) {
+  .video-page h2 {
+    font-size: 20px;
+  }
+
+  .video-breadcrumb {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .video-breadcrumb p {
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .video-breadcrumb p:first-of-type {
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  .video-primary-information-panel-thumbnail {
+    display: flex;
+    justify-content: center;
+  }
+
   .video-primary-information-panels {
     flex-direction: column;
     gap: 20px;
     align-items: stretch;
   }
+
   .video-fold-panels {
     gap: 20px;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .video-panel-header h3, .video-panel-text h3 {
+    font-size: 16px;
+  }
+
+  .video-navigation span {
+    font-size: 14px;
+  }
+
+  .video-panel-subheading {
+    font-size: 14px;
+  }
+
+  .video-keywords-list span {
+    font-size: 14px;
+  }
+
+  .video-featured-comments p {
+    font-size: 14px;
+  }
+
+  .video-panel-option-pagination {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    border-radius: 12px;
+  }
+
+  .video-panel-option-pagination:hover {
+    background-color: unset;
+  }
+
+  .video-panel-option-download {
+    display: none;
   }
 }
 

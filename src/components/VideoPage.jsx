@@ -120,7 +120,7 @@ export default function VideoPage({ library, fetchLibrary }) {
                 {job.status === "completed" &&
                 <div className="video-navigation">
                     <span className={getNavClassName("ideas")} onClick={() => setPage("ideas")}>Content Ideas</span>
-                    <span className={getNavClassName("comments")} onClick={() => setPage("comments")}>Comments</span>
+                    <span className={getNavClassName("comments")} onClick={() => setPage("comments")}>Featured</span>
                     <span className={getNavClassName("summary")} onClick={() => setPage("summary")}>Audience</span>
                 </div>
                 }
@@ -257,7 +257,7 @@ function KeywordsTable({ keywords, job }) {
                 <div className="video-panel-options">
                     <div className="video-panel-option video-panel-option-pagination" onClick={() => adjustPageNumber(false)}><MdKeyboardArrowLeft style={getAdditionalStyle(false)}/></div>
                     <div className="video-panel-option video-panel-option-pagination" onClick={() => adjustPageNumber(true)}><MdKeyboardArrowRight style={getAdditionalStyle(true)}/></div>
-                    <div className="video-panel-option video-panel-option-pagination" title="Download keywords as a .csv" onClick={downloadCSVFromJson}><MdFileDownload style={{color: "var(--cp-color-dark)"}}/></div>
+                    <div className="video-panel-option video-panel-option-pagination video-panel-option-download" title="Download keywords as a .csv" onClick={downloadCSVFromJson}><MdFileDownload style={{color: "var(--cp-color-dark)"}}/></div>
                 </div>
                 }
             </div>

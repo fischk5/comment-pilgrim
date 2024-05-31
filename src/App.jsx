@@ -82,7 +82,7 @@ export default function App() {
       <div className="app-loader-out">
         <div className="app-load-in">
           <div className="app-load-welcome">
-            <h1>Welcome to Comment Pilgrim</h1>
+            <h1>Comment Pilgrim</h1>
             <div className="loader"></div>
             <div>Loading your experience...</div>
           </div>
