@@ -176,7 +176,7 @@ export default function Register() {
 function SignupHeaderInformation({referrer}) {
     if (referrer === "appsumo") {
         return (
-            <h2>Welcome, Sumoling! 👋</h2>
+            <h2>Welcome, Sumo-ling! 👋</h2>
         )
     } else {
         return (
