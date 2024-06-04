@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
     }, [])
     return (
         <div>
-            <GeneralHeader />
+            <GeneralHeader hideNavs={true} />
             <div className="privacy-policy common-outer-width" style={{marginBottom: "120px"}}>
                 <h1>Privacy Policy</h1>
                 <p>Effective Date: May 29, 2024</p>

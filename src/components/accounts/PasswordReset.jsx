@@ -45,7 +45,6 @@ export default function PasswordReset() {
     }, [proposedPassword, proposedPasswordCheck])
     return (
         <div className="account">
-            {/* <GeneralHeader/> */}
             <div className="account-outer">
                 <div className="account-inner">
                     <div className="account-form-container-standard">

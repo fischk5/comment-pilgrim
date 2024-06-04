@@ -30,7 +30,7 @@ export default function Register() {
     const [proposedPlanIsAnnual, setProposedPlanIsAnnual] = useState(() => { return false })
     const updateProposedPlan = () => {
         try {
-            if (["free", "starter", "standard", "agency"].includes(plan)) setProposedPlan(plan)
+            if (["free", "basic", "starter", "standard", "agency"].includes(plan)) setProposedPlan(plan)
             if (annual) {
                 setProposedPlanIsAnnual(true)
             } else {

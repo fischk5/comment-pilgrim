@@ -1,4 +1,11 @@
-exports.PRICING_TABLE = [
+exports.PRICING_TABLE = [    {
+        _id: "basic",
+        name: "Basic",
+        subtitle: "For growing creators exploring the planet",
+        cost_annual: "150",
+        cost_monthly: "15",
+        allowed_videos: "50"
+    },
     {
         _id: "starter",
         name: "Starter",
@@ -15,12 +22,12 @@ exports.PRICING_TABLE = [
         cost_monthly: "149",
         allowed_videos: "1000"
     },
-    {
-        _id: "agency",
-        name: "Agency",
-        subtitle: "Scale your audience analysis capacities for nearly unlimited ideas",
-        cost_annual: "3690",
-        cost_monthly: "369",
-        allowed_videos: "3000"
-    }
+    // {
+    //     _id: "agency",
+    //     name: "Agency",
+    //     subtitle: "Scale your audience analysis capacities for nearly unlimited ideas",
+    //     cost_annual: "3690",
+    //     cost_monthly: "369",
+    //     allowed_videos: "3000"
+    // }
 ]

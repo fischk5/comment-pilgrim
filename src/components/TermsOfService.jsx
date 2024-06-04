@@ -7,7 +7,7 @@ export default function TermsOfService({authenticated}) {
     }, [])
     return (
         <div>
-            <GeneralHeader />
+            <GeneralHeader hideNavs={true} />
             <div className="privacy-policy common-outer-width" style={{marginBottom: "120px"}}>
                 <h1>Terms of Service</h1>
                 <p>Effective date: May 29, 2024</p>
