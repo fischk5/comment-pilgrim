@@ -1108,6 +1108,15 @@ input:checked + .slider:before {
   .header-section.header-section-general:last-of-type {
     flex-basis: 45%;
   }
+
+  .header-section-authenticators span {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .header-section-authenticators span.header-section-authenticator-register svg {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 800px) {
